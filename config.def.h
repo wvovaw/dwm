@@ -71,12 +71,15 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-b", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *incBackLight[] = {"xbacklight", "+10", NULL};
-static const char *decBackLight[] = {"xbacklight", "-10", NULL};
-static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "5%+", NULL};
-static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "5%-", NULL};
+static const char *incBackLight[] = {"xbacklight", "+2", NULL};
+static const char *decBackLight[] = {"xbacklight", "-2", NULL};
+static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "1%+", NULL};
+static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "1%-", NULL};
 static const char *muteAlsa[] = {"amixer", "-c", "1", "set", "Master", "0%", NULL};
-static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "15%", NULL};
+static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "35%", NULL};
+// @todo: add pause/play for spotifyd
+static const char *pauseMpc[] = { "mpc", "pause", NULL};
+static const char *playMpc[] = { "mpc", "play", NULL};
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -111,6 +114,8 @@ static Key keys[] = {
         { MODKEY,                       XK_F6,     spawn,          {.v = incAlsa} },
         { MODKEY,                       XK_F3,     spawn,          {.v = muteAlsa} },
         { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = unmuteAlsa} },
+        { MODKEY,                       XK_grave,  spawn,          {.v = pauseMpc} },
+        { MODKEY|ShiftMask,             XK_grave,  spawn,          {.v = playMpc} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
