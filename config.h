@@ -10,9 +10,9 @@ static const int horizpadbar        = 2;        /* INNER horizontal padding for 
 static const int vertpadbar         = 4;        /* INNER vertical padding for statusbar */
 static const int vertpad            = 5;       /* OUTER vertical padding of bar */
 static const int sidepad            = 10;       /* OUTER horizontal padding of bar */
-/* static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=14" }; */
-static const char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
+/* static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=12" }; */
 /* static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=10"; */
+static const char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
 static const char dmenufont[]       = "Inconsolata Nerd Font:size=10";
 static const char col_gray1[]       = "#282a36";
 static const char col_gray2[]       = "#282a36";
@@ -82,6 +82,7 @@ static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "35%", 
 // @todo: add pause/play for spotifyd
 static const char *pauseMpc[] = { "mpc", "pause", NULL};
 static const char *playMpc[] = { "mpc", "play", NULL};
+static const char *ranger[]  = { "st", "-e", "ranger", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -119,6 +120,7 @@ static Key keys[] = {
         { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = unmuteAlsa} },
         { MODKEY,                       XK_grave,  spawn,          {.v = pauseMpc} },
         { MODKEY|ShiftMask,             XK_grave,  spawn,          {.v = playMpc} },
+        { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = ranger} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
