@@ -8,7 +8,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int horizpadbar        = 2;        /* INNER horizontal padding for statusbar */
 static const int vertpadbar         = 4;        /* INNER vertical padding for statusbar */
-static const int vertpad            = 10;       /* OUTER vertical padding of bar */
+static const int vertpad            = 5;       /* OUTER vertical padding of bar */
 static const int sidepad            = 10;       /* OUTER horizontal padding of bar */
 /* static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=14" }; */
 static const char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
