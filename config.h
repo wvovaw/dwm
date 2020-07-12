@@ -6,12 +6,14 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int horizpadbar        = 5;        /* INNER horizontal padding for statusbar */
-static const int vertpadbar         = 5;        /* INNER vertical padding for statusbar */
+static const int horizpadbar        = 2;        /* INNER horizontal padding for statusbar */
+static const int vertpadbar         = 4;        /* INNER vertical padding for statusbar */
 static const int vertpad            = 10;       /* OUTER vertical padding of bar */
 static const int sidepad            = 10;       /* OUTER horizontal padding of bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font Mono:size=12" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font Mono:size=9";
+/* static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=14" }; */
+static const char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
+/* static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=10"; */
+static const char dmenufont[]       = "Inconsolata Nerd Font:size=10";
 static const char col_gray1[]       = "#282a36";
 static const char col_gray2[]       = "#282a36";
 static const char col_gray3[]       = "#f8f8f2";
@@ -31,7 +33,7 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "ﲵ", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "ﲵ ", " ", " ", " ", " ", " ", " ", " ", " " };
 static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
@@ -45,7 +47,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
