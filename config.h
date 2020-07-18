@@ -75,6 +75,12 @@ static const char *dmenucmd[] = { "dmenu_run", "-b", "-m", dmenumon, "-fn", dmen
 static const char *termcmd[]  = { "st", NULL };
 static const char *incBackLight[] = {"xbacklight", "+10", NULL};
 static const char *decBackLight[] = {"xbacklight", "-10", NULL};
+static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "5%+", NULL};
+static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "5%-", NULL};
+static const char *muteAlsa[] = {"amixer", "-c", "1", "set", "Master", "0%", NULL};
+// @fixme: doesn't work mask
+static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "15%", NULL};
+// @todo: add pause/play for mpd and spotifyd
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -105,6 +111,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
         { MODKEY,                       XK_F8,     spawn,          {.v = decBackLight} },
         { MODKEY,                       XK_F9,     spawn,          {.v = incBackLight} },
+        { MODKEY,                       XK_F5,     spawn,          {.v = decAlsa} },
+        { MODKEY,                       XK_F6,     spawn,          {.v = incAlsa} },
+        { MODKEY,                       XK_F3,     spawn,          {.v = muteAlsa} },
+        { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = unmuteAlsa} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
