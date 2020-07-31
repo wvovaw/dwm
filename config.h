@@ -10,8 +10,6 @@ static const int horizpadbar        = 2;        /* INNER horizontal padding for 
 static const int vertpadbar         = 8;        /* INNER vertical padding for statusbar */
 static const int vertpad            = 5;       /* OUTER vertical padding of bar */
 static const int sidepad            = 10;       /* OUTER horizontal padding of bar */
-/* static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=12" }; */
-/* static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=10"; */
 static const char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
 static const char dmenufont[]       = "Inconsolata Nerd Font:size=12";
 static const char col_gray1[]       = "#282a36";
@@ -60,8 +58,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-/* #define MODKEY Mod4Mask */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -80,18 +77,21 @@ static const char *decBackLight[] = {"xbacklight", "-5", NULL};
 static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%+", NULL};
 static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%-", NULL};
 static const char *muteAlsa[] = {"amixer", "-c", "1", "set", "Master", "0%", NULL};
-static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "35%", NULL};
-// @todo: add pause/play for spotifyd
+static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "50%", NULL};
 static const char *toggleMpc[] = { "mpc", "toggle", NULL};
 static const char *stopMpc[] = { "mpc", "stop", NULL};
 static const char *nextMpc[] = { "mpc", "next", NULL};
 static const char *prevMpc[] = { "mpc", "prev", NULL};
+static const char *seekForvardMpc[] = { "mpc", "seek", "+15", NULL};
+static const char *seekBackwardMpc[] = { "mpc", "seek", "-15", NULL};
 static const char *ranger[]  = { "st", "-e", "ranger", NULL };
 static const char *slock[]  = { "slock", NULL };
+static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/shoot.png", NULL };
+static const char *screenShootSelect[] = { "import", "/home/wvovaw/Images/Screenshots/shoot.png", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_F1,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_F1,     spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -117,6 +117,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+	{ MODKEY|ShiftMask,             XK_n,      togglealttag,   {0} },
         { MODKEY,                       XK_Left,   spawn,          {.v = decBackLight} },
         { MODKEY,                       XK_Right,  spawn,          {.v = incBackLight} },
         { MODKEY,                       XK_F2,     spawn,          {.v = decAlsa} },
@@ -125,10 +126,14 @@ static Key keys[] = {
         { MODKEY|ShiftMask,             XK_F4,     spawn,          {.v = unmuteAlsa} },
         { MODKEY,                       XK_F5,     spawn,          {.v = prevMpc} },
         { MODKEY,                       XK_F6,     spawn,          {.v = nextMpc} },
+        { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBackwardMpc} },
+        { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekForvardMpc} },
         { MODKEY,                       XK_F7,     spawn,          {.v = toggleMpc} },
         { MODKEY,                       XK_F8,     spawn,          {.v = stopMpc} },
         { MODKEY,                       XK_F11,    spawn,          {.v = slock} },
         { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = ranger} },
+        { MODKEY,                       XK_Print,  spawn,          {.v = screenShootEntireX} },
+        { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenShootSelect} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
