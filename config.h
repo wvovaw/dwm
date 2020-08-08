@@ -34,7 +34,7 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "ﲵ ", " ", " ", " ", "ﭮ ", " ", " ", " ", " " };
+static const char *tags[] = { "ﲵ ", " ", " ", " ", " ", "ﭮ ", " ", " ", " " };
 static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
@@ -44,8 +44,10 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "Telegram", NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "discord",  NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Telegram", NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "discord",  NULL,       NULL,       1 << 5,       0,           -1 },
+	{ NULL,       NULL,       "ranger",   1 << 1,       0,           -1 },
+	{ NULL,       "feh",      NULL,       1 << 3,       0,           -1 },
 };
 
 /* layout(s) */
@@ -55,13 +57,13 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
+	{ "﬿ ",      tile },    /* first entry is default */
+	{ "ﱟ ",      NULL },    /* no layout function means floating behavior */
+	{ "﬘ ",      monocle },
+	{ " ",      bstack },
+	{ "﯅ ",      bstackhoriz },
+	{ "頻 ",      centeredmaster },
+	{ " ",      centeredfloatingmaster },
 	{ NULL,       NULL },
 };
 
@@ -85,8 +87,8 @@ static const char *incBackLight[] = {"xbacklight", "+5", NULL};
 static const char *decBackLight[] = {"xbacklight", "-5", NULL};
 static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%+", NULL};
 static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%-", NULL};
-static const char *muteAlsa[] = {"amixer", "-c", "1", "set", "Master", "0%", NULL};
-static const char *unmuteAlsa[] = {"amixer", "-c", "1", "set", "Master", "50%", NULL};
+static const char *muteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "mute", "cap", NULL};
+static const char *unmuteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "unmute", "cap", NULL};
 static const char *toggleMpc[] = { "mpc", "toggle", NULL};
 static const char *stopMpc[] = { "mpc", "stop", NULL};
 static const char *nextMpc[] = { "mpc", "next", NULL};
@@ -95,8 +97,8 @@ static const char *seekForvardMpc[] = { "mpc", "seek", "+15", NULL};
 static const char *seekBackwardMpc[] = { "mpc", "seek", "-15", NULL};
 static const char *ranger[]  = { "st", "-e", "ranger", NULL };
 static const char *slock[]  = { "slock", NULL };
-static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/shoot.png", NULL };
-static const char *screenShootSelect[] = { "import", "/home/wvovaw/Images/Screenshots/shoot.png", NULL };
+static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL };
+static const char *screenShootSelect[] = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -178,8 +180,8 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkLtSymbol,          0,              Button1,        cyclelayout,    {.i = +1} },
+	{ ClkLtSymbol,          0,              Button3,        cyclelayout,    {.i = -1} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
