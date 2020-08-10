@@ -19,12 +19,20 @@ static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#005577";
 static char selbgcolor[]            = "#005577";
+static char col_black[]       = "#000000";
+static char col_red[]         = "#ff0000";
+static char col_yellow[]      = "#ffff00";
+static char col_white[]       = "#ffffff";
 static const unsigned int baralpha = 0xd0;
 static const unsigned int borderalpha = OPAQUE;
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+       /* [SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 }, */
+       /* [SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan }, */
+       [SchemeWarn] =	 { col_black, col_yellow, col_red },
+       [SchemeUrgent]=	 { col_white, col_red,    col_red },
  };
 
 static const unsigned int alphas[][3]      = {
