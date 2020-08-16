@@ -88,7 +88,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-b", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-b", "-p", "異 ", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
  
 static const char *termcmd[]  = { "st", NULL };
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
@@ -107,6 +107,7 @@ static const char *ranger[]  = { "st", "-e", "ranger", NULL };
 static const char *slock[]  = { "slock", NULL };
 static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL };
 static const char *screenShootSelect[] = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL };
+static const char *passmenu[] = { "/home/wvovaw/scripts/passmenu", "-c", "-p", " ", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -172,6 +173,7 @@ static Key keys[] = {
         { MODKEY,                       XK_Print,  spawn,          {.v = screenShootEntireX} },
         { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenShootSelect} },
         { MODKEY,                       XK_F12,    xrdb,           {.v = NULL } },
+        { MODKEY,                       XK_p,      spawn,          {.v = passmenu } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
