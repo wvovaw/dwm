@@ -13,12 +13,12 @@ static int sidepad            = 10;       /* OUTER horizontal padding of bar */
 static char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
 static char dmenufont[]       = "Inconsolata Nerd Font:size=12";
 
-static char normbgcolor[]           = "#222222";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
+static char normbgcolor[]     = "#222222";
+static char normbordercolor[] = "#444444";
+static char normfgcolor[]     = "#bbbbbb";
+static char selfgcolor[]      = "#eeeeee";
+static char selbordercolor[]  = "#005577";
+static char selbgcolor[]      = "#005577";
 static char col_black[]       = "#000000";
 static char col_red[]         = "#ff0000";
 static char col_yellow[]      = "#ffff00";
@@ -29,8 +29,6 @@ static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
-       /* [SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 }, */
-       /* [SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan }, */
        [SchemeWarn] =	 { col_black, col_yellow, col_red },
        [SchemeUrgent]=	 { col_white, col_red,    col_red },
  };
@@ -42,20 +40,21 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "ﲵ ", " ", " ", " ", " ", "ﭮ ", " ", " ", " " };
-static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "ﲵ ", " ", " ", "ﭮ ", " ", " ", "龎 ", " ", " " };
+static const char *tagsalt[] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "Telegram", NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "discord",  NULL,       NULL,       1 << 5,       0,           -1 },
-	{ NULL,       NULL,       "ranger",   1 << 1,       0,           -1 },
-	{ NULL,       "feh",      NULL,       1 << 3,       0,           -1 },
+	/* class          instance    title       tags mask     isfloating   monitor */
+	{ "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Spotify",      NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "discord",      NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Telegram",     NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "St",           NULL,       "neomutt",  1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -70,9 +69,9 @@ static const Layout layouts[] = {
 	{ "﬘ ",      monocle },
 	{ " ",      bstack },
 	{ "﯅ ",      bstackhoriz },
-	{ "頻 ",      centeredmaster },
+	{ "頻 ",     centeredmaster },
 	{ " ",      centeredfloatingmaster },
-	{ NULL,       NULL },
+	{ NULL,      NULL },
 };
 
 /* key definitions */
@@ -86,28 +85,65 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
+/* Programs */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-b", "-p", "異 ", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
- 
 static const char *termcmd[]  = { "st", NULL };
+static const char *ranger[]   = { "st", "-e", "ranger", NULL };
+static const char *lf[]       = { "st", "-e", "lf", NULL };
+static const char *neomutt[]  = { "st", "-e", "neomutt", NULL };
+
+static const char *dmenucmd[] = { "dmenu_run", "-b", "-p", "異 ",
+                                  "-m", dmenumon, "-fn", dmenufont,
+                                  "-nb", normbgcolor, "-nf", normfgcolor,
+                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", " ",
+                                  "-m", dmenumon, "-fn", dmenufont,
+                                  "-nb", normbgcolor, "-nf", normfgcolor,
+                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+
+/* System control keys */
+// Lock Zzz Off Reboot
+static const char *slock[]  = { "slock", NULL };
+static const char *zzz[]    = { "sudo", "zzz", NULL };
+static const char *off[]    = { "sudo", "shutdown", "-P", "now", NULL };
+static const char *reboot[] = { "sudo", "shutdown", "-r", "now", NULL };
+
+// Backlight
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
 static const char *decBackLight[] = {"xbacklight", "-5", NULL};
-static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%+", NULL};
-static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%-", NULL};
-static const char *muteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "mute", "cap", NULL};
-static const char *unmuteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "unmute", "cap", NULL};
-static const char *toggleMpc[] = { "mpc", "toggle", NULL};
-static const char *stopMpc[] = { "mpc", "stop", NULL};
-static const char *nextMpc[] = { "mpc", "next", NULL};
-static const char *prevMpc[] = { "mpc", "prev", NULL};
-static const char *seekForvardMpc[] = { "mpc", "seek", "+15", NULL};
-static const char *seekBackwardMpc[] = { "mpc", "seek", "-15", NULL};
-static const char *ranger[]  = { "st", "-e", "ranger", NULL };
-static const char *slock[]  = { "slock", NULL };
+
+// Alsa
+/* static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%+", NULL}; */
+/* static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%-", NULL}; */
+/* static const char *muteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "mute", "cap", NULL}; */
+/* static const char *unmuteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "unmute", "cap", NULL}; */
+
+// Pulse
+static const char *incPulse[]        = {"pamixer", "--increase", "2", "--allow-boost", NULL};
+static const char *decPulse[]        = {"pamixer", "--decrease", "2", NULL};
+static const char *togglePulse[]     = {"pamixer", "--toggle-mute", NULL};
+
+/* Media control keys */
+// MPC
+/* static const char *toggleMpc[]      = { "mpc", "toggle", NULL }; */
+/* static const char *stopMpc[]        = { "mpc", "stop",   NULL}; */
+/* static const char *nextMpc[]        = { "mpc", "next",   NULL}; */
+/* static const char *prevMpc[]        = { "mpc", "prev",   NULL}; */
+/* static const char *seekFwMpc[]      = { "mpc", "seek", "+15", NULL}; */
+/* static const char *seekBwMpc[]      = { "mpc", "seek", "-15", NULL}; */
+
+// Playerctl
+static const char *togglePlayerctl[] = { "playerctl", "play-pause", NULL};
+static const char *stopPlayerctl[]   = { "playerctl", "stop", NULL};
+static const char *nextPlayerctl[]   = { "playerctl", "next", NULL};
+static const char *prevPlayerctl[]   = { "playerctl", "previous", NULL};
+static const char *seekFwPlayerctl[] = { "playerctl", "position", "15+", NULL};
+static const char *seekBwPlayerctl[] = { "playerctl", "position", "15-", NULL};
+
+// Screenshots
 static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL };
-static const char *screenShootSelect[] = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL };
-static const char *passmenu[] = { "/home/wvovaw/scripts/passmenu", "-c", "-p", " ", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *screenShootSelect[]  = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL };
+
 
 /*
  * Xresources preferences to load at startup
@@ -156,24 +192,38 @@ static Key keys[] = {
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY|ShiftMask,             XK_n,      togglealttag,   {0} },
+
         { MODKEY,                       XK_Left,   spawn,          {.v = decBackLight} },
         { MODKEY,                       XK_Right,  spawn,          {.v = incBackLight} },
-        { MODKEY,                       XK_F2,     spawn,          {.v = decAlsa} },
-        { MODKEY,                       XK_F3,     spawn,          {.v = incAlsa} },
-        { MODKEY,                       XK_F4,     spawn,          {.v = muteAlsa} },
-        { MODKEY|ShiftMask,             XK_F4,     spawn,          {.v = unmuteAlsa} },
-        { MODKEY,                       XK_F5,     spawn,          {.v = prevMpc} },
-        { MODKEY,                       XK_F6,     spawn,          {.v = nextMpc} },
-        { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBackwardMpc} },
-        { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekForvardMpc} },
-        { MODKEY,                       XK_F7,     spawn,          {.v = toggleMpc} },
-        { MODKEY,                       XK_F8,     spawn,          {.v = stopMpc} },
+        { MODKEY,                       XK_F2,     spawn,          {.v = decPulse} },
+        { MODKEY,                       XK_F3,     spawn,          {.v = incPulse} },
+        { MODKEY,                       XK_F4,     spawn,          {.v = togglePulse} },
+
+        /* { MODKEY,                       XK_F5,     spawn,          {.v = prevMpc} }, */
+        /* { MODKEY,                       XK_F6,     spawn,          {.v = nextMpc} }, */
+        /* { MODKEY,                       XK_F7,     spawn,          {.v = toggleMpc} }, */
+        /* { MODKEY,                       XK_F8,     spawn,          {.v = stopMpc} }, */
+        /* { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwMpc} }, */
+        /* { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwMpc} }, */
+
+        { MODKEY,                       XK_F5,     spawn,          {.v = prevPlayerctl} },
+        { MODKEY,                       XK_F6,     spawn,          {.v = nextPlayerctl} },
+        { MODKEY,                       XK_F7,     spawn,          {.v = togglePlayerctl} },
+        { MODKEY,                       XK_F8,     spawn,          {.v = stopPlayerctl} },
+        { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwPlayerctl} },
+        { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwPlayerctl} },
+
+        { MODKEY,                       XK_F9,     spawn,          {.v = neomutt } },
         { MODKEY,                       XK_F11,    spawn,          {.v = slock} },
+        { MODKEY|ShiftMask,             XK_F11,    spawn,          {.v = zzz} },
+        { MODKEY,                       XK_F12,    spawn,          {.v = off} },
+        { MODKEY|ShiftMask,             XK_F12,    spawn,          {.v = reboot} },
         { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = ranger} },
+        { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lf} },
         { MODKEY,                       XK_Print,  spawn,          {.v = screenShootEntireX} },
         { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenShootSelect} },
-        { MODKEY,                       XK_F12,    xrdb,           {.v = NULL } },
         { MODKEY,                       XK_p,      spawn,          {.v = passmenu } },
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
