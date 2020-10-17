@@ -8,10 +8,10 @@ static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static int horizpadbar        = 2;        /* INNER horizontal padding for statusbar */
 static int vertpadbar         = 8;        /* INNER vertical padding for statusbar */
-static int vertpad            = 5;       /* OUTER vertical padding of bar */
-static int sidepad            = 10;       /* OUTER horizontal padding of bar */
+static int vertpad            = 0;       /* OUTER vertical padding of bar */
+static int sidepad            = 0;       /* OUTER horizontal padding of bar */
 static char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
-static char dmenufont[]       = "Inconsolata Nerd Font:size=12";
+static char dmenufont[]       = "JetBrainsMono Nerd Font:size=18";
 
 static char normbgcolor[]     = "#222222";
 static char normbordercolor[] = "#444444";
@@ -92,7 +92,7 @@ static const char *ranger[]   = { "st", "-e", "ranger", NULL };
 static const char *lf[]       = { "st", "-e", "lf", NULL };
 static const char *neomutt[]  = { "st", "-e", "neomutt", NULL };
 
-static const char *dmenucmd[] = { "dmenu_run", "-b", "-p", "異 ",
+static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "5", "-b", "-p", "異 ",
                                   "-m", dmenumon, "-fn", dmenufont,
                                   "-nb", normbgcolor, "-nf", normfgcolor,
                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL };
@@ -100,7 +100,6 @@ static const char *passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", "
                                   "-m", dmenumon, "-fn", dmenufont,
                                   "-nb", normbgcolor, "-nf", normfgcolor,
                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-
 /* System control keys */
 // Lock Zzz Off Reboot
 static const char *slock[]  = { "slock", NULL };
