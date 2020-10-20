@@ -8,10 +8,7 @@ static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
-static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/.config/polybar/run.sh"; /* Alternate bar launch command */
-static int horizpadbar        = 2;        /* INNER horizontal padding for statusbar */
-static int vertpadbar         = 8;        /* INNER vertical padding for statusbar */
+static const char *alttrayname      = "polybar";    /* Polybar tray instance name */
 static int vertpad            = 0;       /* OUTER vertical padding of bar */
 static int sidepad            = 0;       /* OUTER horizontal padding of bar */
 static char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
@@ -44,7 +41,8 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "ﲵ ", " ", " ", "ﭮ ", " ", " ", "龎 ", " ", " " };
+/* static const char *tags[] = { "ﲵ ", " ", " ", "ﭮ ", " ", " ", "龎 ", " ", " " }; */
+static const char *tags[] = { "1", "2", "3", "4", "5" };
 static const char *tagsalt[] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
 
 static const Rule rules[] = {
@@ -58,7 +56,6 @@ static const Rule rules[] = {
 	{ "Spotify",      NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "discord",      NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Telegram",     NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "St",           NULL,       "neomutt",  1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -232,10 +229,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
@@ -254,5 +247,23 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+};
+
+static const char *ipcsockpath = "/tmp/dwm.sock";
+static IPCCommand ipccommands[] = {
+  IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  focusstack,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  zoom,                1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  incnmaster,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  killclient,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  togglefloating,      1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  setmfact,            1,      {ARG_TYPE_FLOAT}  ),
+  IPCCOMMAND(  setlayoutsafe,       1,      {ARG_TYPE_PTR}    ),
+  IPCCOMMAND(  quit,                1,      {ARG_TYPE_NONE}   )
 };
 
