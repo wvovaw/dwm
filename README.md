@@ -1,5 +1,4 @@
-# DWM
-
+# DWM (Anybar branch for polybar (and other) support)
 ## Patches
 * dwm-alpha-20180613-b69c870.diff
 * dwm-alternativetags-6.2.diff
