@@ -51,11 +51,13 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class          instance    title       tags mask     isfloating   monitor */
-	{ "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "Spotify",      NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "discord",      NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Telegram",     NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Firefox",          NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "chromium",         NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "qutebrowser",      NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Spotify",          NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "discord",          NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Telegram",         NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "jetbrains-clion",  NULL,       "win0",     0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -89,9 +91,6 @@ static const Layout layouts[] = {
 /* Programs */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *termcmd[]  = { "st", NULL };
-static const char *ranger[]   = { "st", "-e", "ranger", NULL };
-static const char *lf[]       = { "st", "-e", "lf", NULL };
-static const char *neomutt[]  = { "st", "-e", "neomutt", NULL };
 
 static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "5", "-b", "-p", "異 ",
                                   "-m", dmenumon, "-fn", dmenufont,
@@ -101,22 +100,16 @@ static const char *passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", "
                                   "-m", dmenumon, "-fn", dmenufont,
                                   "-nb", normbgcolor, "-nf", normfgcolor,
                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-/* System control keys */
+/* Power menu */
 // Lock Zzz Off Reboot
-static const char *slock[]  = { "slock", NULL };
-static const char *zzz[]    = { "sudo", "zzz", NULL };
-static const char *off[]    = { "sudo", "shutdown", "-P", "now", NULL };
-static const char *reboot[] = { "sudo", "shutdown", "-r", "now", NULL };
+static const char *powermenu[] = { "/home/wvovaw/Scripts/powermenu", "-c", "-p", "⏼ ",
+                                  "-m", dmenumon, "-fn", dmenufont,
+                                  "-nb", normbgcolor, "-nf", normfgcolor,
+                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 
 // Backlight
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
 static const char *decBackLight[] = {"xbacklight", "-5", NULL};
-
-// Alsa
-/* static const char *incAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%+", NULL}; */
-/* static const char *decAlsa[] = {"amixer", "-c", "1", "set", "Master", "2%-", NULL}; */
-/* static const char *muteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "mute", "cap", NULL}; */
-/* static const char *unmuteAlsa[] = {"amixer", "-c", "1", "sset", "Master", "unmute", "cap", NULL}; */
 
 // Pulse
 static const char *incPulse[]        = {"pamixer", "--increase", "2", "--allow-boost", NULL};
@@ -124,14 +117,6 @@ static const char *decPulse[]        = {"pamixer", "--decrease", "2", NULL};
 static const char *togglePulse[]     = {"pamixer", "--toggle-mute", NULL};
 
 /* Media control keys */
-// MPC
-/* static const char *toggleMpc[]      = { "mpc", "toggle", NULL }; */
-/* static const char *stopMpc[]        = { "mpc", "stop",   NULL}; */
-/* static const char *nextMpc[]        = { "mpc", "next",   NULL}; */
-/* static const char *prevMpc[]        = { "mpc", "prev",   NULL}; */
-/* static const char *seekFwMpc[]      = { "mpc", "seek", "+15", NULL}; */
-/* static const char *seekBwMpc[]      = { "mpc", "seek", "-15", NULL}; */
-
 // Playerctl
 static const char *togglePlayerctl[] = { "playerctl", "play-pause", NULL};
 static const char *stopPlayerctl[]   = { "playerctl", "stop", NULL};
@@ -199,13 +184,6 @@ static Key keys[] = {
         { MODKEY,                       XK_F3,     spawn,          {.v = incPulse} },
         { MODKEY,                       XK_F4,     spawn,          {.v = togglePulse} },
 
-        /* { MODKEY,                       XK_F5,     spawn,          {.v = prevMpc} }, */
-        /* { MODKEY,                       XK_F6,     spawn,          {.v = nextMpc} }, */
-        /* { MODKEY,                       XK_F7,     spawn,          {.v = toggleMpc} }, */
-        /* { MODKEY,                       XK_F8,     spawn,          {.v = stopMpc} }, */
-        /* { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwMpc} }, */
-        /* { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwMpc} }, */
-
         { MODKEY,                       XK_F5,     spawn,          {.v = prevPlayerctl} },
         { MODKEY,                       XK_F6,     spawn,          {.v = nextPlayerctl} },
         { MODKEY,                       XK_F7,     spawn,          {.v = togglePlayerctl} },
@@ -213,13 +191,7 @@ static Key keys[] = {
         { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwPlayerctl} },
         { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwPlayerctl} },
 
-        { MODKEY,                       XK_F9,     spawn,          {.v = neomutt } },
-        { MODKEY,                       XK_F11,    spawn,          {.v = slock} },
-        { MODKEY|ShiftMask,             XK_F11,    spawn,          {.v = zzz} },
-        { MODKEY,                       XK_F12,    spawn,          {.v = off} },
-        { MODKEY|ShiftMask,             XK_F12,    spawn,          {.v = reboot} },
-        { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = ranger} },
-        { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lf} },
+        { MODKEY,                       XK_F12,    spawn,          {.v = powermenu } },
         { MODKEY,                       XK_Print,  spawn,          {.v = screenShootEntireX} },
         { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenShootSelect} },
         { MODKEY,                       XK_p,      spawn,          {.v = passmenu } },
