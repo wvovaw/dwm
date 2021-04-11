@@ -52,7 +52,7 @@ static const Rule rules[] = {
 	 */
 	/* class          instance    title       tags mask     isfloating   monitor */
 	{ "Firefox",          NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "chromium",         NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Chromium",         NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "qutebrowser",      NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "Spotify",          NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "discord",          NULL,       NULL,       1 << 3,       0,           -1 },
@@ -90,22 +90,29 @@ static const Layout layouts[] = {
 
 /* Programs */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "/usr/bin/terminal", NULL }; // Add alias to the terminal of choose
 
-static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "5", "-b", "-p", "異 ",
+/* Launchers */
+// dmenu
+static const char *dmenucmd[] = { "dmenu_run", NULL };
+/* static const char *dmenu_apps[] = { "dmenu_run", "-c", "-l", "5", "-b", "-p", "異 ", */
+/*                                   "-m", dmenumon, "-fn", dmenufont, */
+/*                                   "-nb", normbgcolor, "-nf", normfgcolor, */
+/*                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL }; */
+
+static const char *dmenu_passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", " ",
                                   "-m", dmenumon, "-fn", dmenufont,
                                   "-nb", normbgcolor, "-nf", normfgcolor,
                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", " ",
-                                  "-m", dmenumon, "-fn", dmenufont,
-                                  "-nb", normbgcolor, "-nf", normfgcolor,
-                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-/* Power menu */
-// Lock Zzz Off Reboot
-static const char *powermenu[] = { "/home/wvovaw/Scripts/powermenu", "-c", "-p", "⏼ ",
-                                  "-m", dmenumon, "-fn", dmenufont,
-                                  "-nb", normbgcolor, "-nf", normfgcolor,
-                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+
+/* static const char *dmenu_powermenu[] = { "/home/wvovaw/Scripts/powermenu", "-c", "-p", "⏼ ", */
+/*                                   "-m", dmenumon, "-fn", dmenufont, */
+/*                                   "-nb", normbgcolor, "-nf", normfgcolor, */
+/*                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL }; */
+
+// rofi
+static const char *rofi_apps[] = { "/home/wvovaw/.config/rofi/bin/launcher_colorful", NULL };
+static const char *rofi_powermenu[] = { "/home/wvovaw/.config/rofi/bin/android_powermenu", NULL };
 
 // Backlight
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
@@ -125,9 +132,13 @@ static const char *prevPlayerctl[]   = { "playerctl", "previous", NULL};
 static const char *seekFwPlayerctl[] = { "playerctl", "position", "15+", NULL};
 static const char *seekBwPlayerctl[] = { "playerctl", "position", "15-", NULL};
 
-// Screenshots
-static const char *screenShootEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL };
-static const char *screenShootSelect[]  = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL };
+/* Screenshots */
+// imagemagic
+/* static const char *imageMagicEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL }; */
+/* static const char *imageMagicSelect[]  = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL }; */
+
+// scrot
+static const char *scrotRofiMenu[] = { "/home/wvovaw/.config/rofi/bin/android_screenshot", NULL };
 
 
 /*
@@ -151,7 +162,7 @@ ResourcePref resources[] = {
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_F1,     spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_F1,     spawn,          {.v = rofi_apps } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -191,10 +202,9 @@ static Key keys[] = {
         { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwPlayerctl} },
         { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwPlayerctl} },
 
-        { MODKEY,                       XK_F12,    spawn,          {.v = powermenu } },
-        { MODKEY,                       XK_Print,  spawn,          {.v = screenShootEntireX} },
-        { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenShootSelect} },
-        { MODKEY,                       XK_p,      spawn,          {.v = passmenu } },
+        { MODKEY,                       XK_F12,    spawn,          {.v = rofi_powermenu} },
+        { MODKEY,                       XK_Print,  spawn,          {.v = scrotRofiMenu} },
+        { MODKEY,                       XK_p,      spawn,          {.v = dmenu_passmenu } },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)

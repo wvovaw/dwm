@@ -1,5 +1,5 @@
-drw.o
 dwm
 dwm-msg
-dwm.o
-util.o
+*.o
+*.1
+*.rej
