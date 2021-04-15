@@ -14,4 +14,4 @@
 * dwm-statuscolors-20181008-b69c870.diff
 * dwm-statuspadding-20150524-c8e9479.diff
 * dwm-xresources-6.2.diff
-
+* dwm-center-6.2.diff
