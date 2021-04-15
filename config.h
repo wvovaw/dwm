@@ -12,7 +12,6 @@ static const char *alttrayname      = "polybar";    /* Polybar tray instance nam
 static int vertpad            = 0;       /* OUTER vertical padding of bar */
 static int sidepad            = 0;       /* OUTER horizontal padding of bar */
 static char *fonts[]          = { "Inconsolata Nerd Font:size=12" };
-static char dmenufont[]       = "JetBrainsMono Nerd Font:size=18";
 
 static char normbgcolor[]     = "#222222";
 static char normbordercolor[] = "#444444";
@@ -50,14 +49,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class          instance    title       tags mask     isfloating   monitor */
-	{ "Firefox",          NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "Chromium",         NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "qutebrowser",      NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "Spotify",          NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "discord",          NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Telegram",         NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "jetbrains-clion",  NULL,       "win0",     0,            1,           -1 },
+	/* class          instance    title       tags mask      iscentered  isfloating   monitor */
+	{ "Firefox",          NULL,       NULL,       1 << 1,    0, 	     0,           -1 },
+	{ "Chromium",         NULL,       NULL,       1 << 1,    0, 	     0,           -1 },
+	{ "qutebrowser",      NULL,       NULL,       1 << 1,    0, 	     0,           -1 },
+	{ "Spotify",          NULL,       NULL,       1 << 2,    0, 	     0,           -1 },
+	{ "discord",          NULL,       NULL,       1 << 3,    0, 	     0,           -1 },
+	{ "Telegram",         NULL,       NULL,       1 << 4,    0, 	     0,           -1 },
+	{ "jetbrains-clion",  NULL,       "win0",     0,         0, 	     1,           -1 },
 };
 
 /* layout(s) */
@@ -93,26 +92,15 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *termcmd[]  = { "/usr/bin/terminal", NULL }; // Add alias to the terminal of choose
 
 /* Launchers */
-// dmenu
-static const char *dmenucmd[] = { "dmenu_run", NULL };
-/* static const char *dmenu_apps[] = { "dmenu_run", "-c", "-l", "5", "-b", "-p", "異 ", */
-/*                                   "-m", dmenumon, "-fn", dmenufont, */
-/*                                   "-nb", normbgcolor, "-nf", normfgcolor, */
-/*                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL }; */
-
-static const char *dmenu_passmenu[] = { "/home/wvovaw/Scripts/passmenu", "-c", "-p", " ",
-                                  "-m", dmenumon, "-fn", dmenufont,
-                                  "-nb", normbgcolor, "-nf", normfgcolor,
-                                  "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-
-/* static const char *dmenu_powermenu[] = { "/home/wvovaw/Scripts/powermenu", "-c", "-p", "⏼ ", */
-/*                                   "-m", dmenumon, "-fn", dmenufont, */
-/*                                   "-nb", normbgcolor, "-nf", normfgcolor, */
-/*                                   "-sb", selbordercolor, "-sf", selfgcolor, NULL }; */
+static const char *dmenucmd[] = { "dmenu_run", NULL }; /* legacy var*/
 
 // rofi
 static const char *rofi_apps[] = { "/home/wvovaw/.config/rofi/bin/launcher_colorful", NULL };
 static const char *rofi_powermenu[] = { "/home/wvovaw/.config/rofi/bin/android_powermenu", NULL };
+static const char *rofi_scrot[] = { "/home/wvovaw/.config/rofi/bin/android_screenshot", NULL };
+static const char *rofi_passmenu[] = { "rofi-pass", NULL };
+static const char *rofi_quicklinks[] = { "/home/wvovaw/.config/rofi/bin/android_quicklinks", NULL };
+static const char *rofi_emojipicker[] = { "/home/wvovaw/.config/rofi/bin/emojipicker", NULL };
 
 // Backlight
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
@@ -137,27 +125,23 @@ static const char *seekBwPlayerctl[] = { "playerctl", "position", "15-", NULL};
 /* static const char *imageMagicEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL }; */
 /* static const char *imageMagicSelect[]  = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL }; */
 
-// scrot
-static const char *scrotRofiMenu[] = { "/home/wvovaw/.config/rofi/bin/android_screenshot", NULL };
-
-
 /*
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "normbgcolor",        STRING,  &normbgcolor },
-		{ "normbordercolor",    STRING,  &normbordercolor },
-		{ "normfgcolor",        STRING,  &normfgcolor },
-		{ "selbgcolor",         STRING,  &selbgcolor },
-		{ "selbordercolor",     STRING,  &selbordercolor },
-		{ "selfgcolor",         STRING,  &selfgcolor },
-		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",      		INTEGER, &snap },
-		{ "showbar",          	INTEGER, &showbar },
-		{ "topbar",          	INTEGER, &topbar },
-		{ "nmaster",          	INTEGER, &nmaster },
-		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",    	 	FLOAT,   &mfact },
+	{ "normbgcolor",        STRING,  &normbgcolor },
+	{ "normbordercolor",    STRING,  &normbordercolor },
+	{ "normfgcolor",        STRING,  &normfgcolor },
+	{ "selbgcolor",         STRING,  &selbgcolor },
+	{ "selbordercolor",     STRING,  &selbordercolor },
+	{ "selfgcolor",         STRING,  &selfgcolor },
+	{ "borderpx",          	INTEGER, &borderpx },
+	{ "snap",      			INTEGER, &snap },
+	{ "showbar",          	INTEGER, &showbar },
+	{ "topbar",          	INTEGER, &topbar },
+	{ "nmaster",          	INTEGER, &nmaster },
+	{ "resizehints",       	INTEGER, &resizehints },
+	{ "mfact",    	 		FLOAT,   &mfact },
 };
 
 static Key keys[] = {
@@ -174,7 +158,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,			XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -189,22 +173,22 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY|ShiftMask,             XK_n,      togglealttag,   {0} },
 
-        { MODKEY,                       XK_Left,   spawn,          {.v = decBackLight} },
-        { MODKEY,                       XK_Right,  spawn,          {.v = incBackLight} },
-        { MODKEY,                       XK_F2,     spawn,          {.v = decPulse} },
-        { MODKEY,                       XK_F3,     spawn,          {.v = incPulse} },
-        { MODKEY,                       XK_F4,     spawn,          {.v = togglePulse} },
-
-        { MODKEY,                       XK_F5,     spawn,          {.v = prevPlayerctl} },
-        { MODKEY,                       XK_F6,     spawn,          {.v = nextPlayerctl} },
-        { MODKEY,                       XK_F7,     spawn,          {.v = togglePlayerctl} },
-        { MODKEY,                       XK_F8,     spawn,          {.v = stopPlayerctl} },
-        { MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwPlayerctl} },
-        { MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwPlayerctl} },
-
-        { MODKEY,                       XK_F12,    spawn,          {.v = rofi_powermenu} },
-        { MODKEY,                       XK_Print,  spawn,          {.v = scrotRofiMenu} },
-        { MODKEY,                       XK_p,      spawn,          {.v = dmenu_passmenu } },
+	{ MODKEY,                       XK_Left,   spawn,          {.v = decBackLight} },
+	{ MODKEY,                       XK_Right,  spawn,          {.v = incBackLight} },
+	{ MODKEY,                       XK_F2,     spawn,          {.v = decPulse} },
+	{ MODKEY,                       XK_F3,     spawn,          {.v = incPulse} },
+	{ MODKEY,                       XK_F4,     spawn,          {.v = togglePulse} },
+	{ MODKEY,                       XK_F5,     spawn,          {.v = prevPlayerctl} },
+	{ MODKEY,                       XK_F6,     spawn,          {.v = nextPlayerctl} },
+	{ MODKEY,                       XK_F7,     spawn,          {.v = togglePlayerctl} },
+	{ MODKEY,                       XK_F8,     spawn,          {.v = stopPlayerctl} },
+	{ MODKEY|ShiftMask,             XK_F5,     spawn,          {.v = seekBwPlayerctl} },
+	{ MODKEY|ShiftMask,             XK_F6,     spawn,          {.v = seekFwPlayerctl} },
+	{ MODKEY,                       XK_F12,    spawn,          {.v = rofi_powermenu} },
+	{ MODKEY,                       XK_F10,    spawn,          {.v = rofi_quicklinks } },
+	{ MODKEY,                       XK_Print,  spawn,          {.v = rofi_scrot} },
+	{ MODKEY,                       XK_p,      spawn,          {.v = rofi_passmenu } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = rofi_emojipicker } },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
