@@ -6,7 +6,7 @@ include config.mk
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm dwm-msg
+all: options dwm dwm-msg move
 
 options:
 	@echo dwm build options:
@@ -29,7 +29,7 @@ dwm-msg: dwm-msg.o
 	${CC} -o $@ $< ${LDFLAGS}
 
 clean:
-	rm -f dwm dwm-msg ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f dwm ${OBJ} dwm-msg dwm-msg.o dwm-${VERSION}.tar.gz
 
 dist: clean
 	mkdir -p dwm-${VERSION}
@@ -41,15 +41,19 @@ dist: clean
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm dwm-msg ${DESTDIR}${PREFIX}/bin
+	cp -f build/dwm build/dwm-msg ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-msg
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
 
+move:
+	mkdir -p build
+	mv ${OBJ} dwm dwm-msg.o dwm-msg build/
+
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all options clean dist install move uninstall

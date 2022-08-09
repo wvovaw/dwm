@@ -101,7 +101,7 @@ static const char *rofi_powermenu[] = { "/home/wvovaw/.config/rofi/bin/android_p
 static const char *rofi_scrot[] = { "/home/wvovaw/.config/rofi/bin/android_screenshot", NULL };
 static const char *rofi_passmenu[] = { "rofi-pass", NULL };
 static const char *rofi_quicklinks[] = { "/home/wvovaw/.config/rofi/bin/android_quicklinks", NULL };
-static const char *rofi_emojipicker[] = { "/home/wvovaw/.config/rofi/bin/emojipicker", NULL };
+static const char *rofi_emojipicker[] = { "rofi -show emoji", NULL };
 
 // Backlight
 static const char *incBackLight[] = {"xbacklight", "+5", NULL};
@@ -113,18 +113,12 @@ static const char *decPulse[]        = {"pamixer", "--decrease", "2", NULL};
 static const char *togglePulse[]     = {"pamixer", "--toggle-mute", NULL};
 
 /* Media control keys */
-// Playerctl
 static const char *togglePlayerctl[] = { "playerctl", "play-pause", NULL};
 static const char *stopPlayerctl[]   = { "playerctl", "stop", NULL};
 static const char *nextPlayerctl[]   = { "playerctl", "next", NULL};
 static const char *prevPlayerctl[]   = { "playerctl", "previous", NULL};
 static const char *seekFwPlayerctl[] = { "playerctl", "position", "15+", NULL};
 static const char *seekBwPlayerctl[] = { "playerctl", "position", "15-", NULL};
-
-/* Screenshots */
-// imagemagic
-/* static const char *imageMagicEntireX[] = { "import", "-window", "root", "/home/wvovaw/Images/Screenshots/fullScreenshoot.png", NULL }; */
-/* static const char *imageMagicSelect[]  = { "import", "/home/wvovaw/Images/Screenshots/selectScreeshoot.png", NULL }; */
 
 /*
  * Xresources preferences to load at startup
@@ -137,12 +131,12 @@ ResourcePref resources[] = {
 	{ "selbordercolor",     STRING,  &selbordercolor },
 	{ "selfgcolor",         STRING,  &selfgcolor },
 	{ "borderpx",          	INTEGER, &borderpx },
-	{ "snap",      			INTEGER, &snap },
+	{ "snap",								INTEGER, &snap },
 	{ "showbar",          	INTEGER, &showbar },
-	{ "topbar",          	INTEGER, &topbar },
+	{ "topbar",							INTEGER, &topbar },
 	{ "nmaster",          	INTEGER, &nmaster },
 	{ "resizehints",       	INTEGER, &resizehints },
-	{ "mfact",    	 		FLOAT,   &mfact },
+	{ "mfact",							FLOAT,   &mfact },
 };
 
 static Key keys[] = {
@@ -158,8 +152,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY|ControlMask,			XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY,												XK_q,      killclient,     {0} },
+	{ MODKEY|ControlMask,						XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -173,7 +167,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY|ShiftMask,             XK_n,      togglealttag,   {0} },
-
 	{ MODKEY,                       XK_Left,   spawn,          {.v = decBackLight} },
 	{ MODKEY,                       XK_Right,  spawn,          {.v = incBackLight} },
 	{ MODKEY,                       XK_F2,     spawn,          {.v = decPulse} },
@@ -190,7 +183,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Print,  spawn,          {.v = rofi_scrot} },
 	{ MODKEY,                       XK_p,      spawn,          {.v = rofi_passmenu } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = rofi_emojipicker } },
-
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
