@@ -57,6 +57,7 @@ static const Rule rules[] = {
 	{ "discord",          NULL,       NULL,       1 << 3,    0, 	     0,           -1 },
 	{ "Telegram",         NULL,       NULL,       1 << 4,    0, 	     0,           -1 },
 	{ "jetbrains-clion",  NULL,       "win0",     0,         0, 	     1,           -1 },
+	{ "Dragon",						NULL,       "dragon",   31,         1, 	     1,           -1 },
 };
 
 /* layout(s) */
